@@ -12,7 +12,8 @@
 
 ### Justificativa
 
-    Este projeto pode ser utilizado posterior mente para estudo e ensino de como trabalhar com IA e machine learning. Pois ele está totalmente organizado e documentado.
+    Este projeto pode ser utilizado posteriormente para estudo e ensino de como trabalhar com IA e machine learning.
+    Pois ele está totalmente organizado e documentado.
 
 ## Contato
 
