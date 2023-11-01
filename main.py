@@ -1,22 +1,34 @@
-from jogo_da_velha import *
+"""
+    Código Principal
+"""
 
-jogar(False, (0, 0))
-jogar(False, (0, 1))
-jogar(True, (0, 2))
+from src import game
 
-jogar(True, (1, 0))
-jogar(True, (1, 1))
-jogar(False, (1, 2))
+game.jogar(False, (0, 0))
+game.jogar(False, (0, 1))
+game.jogar(True, (0, 2))
 
-jogar(False, (2, 0))
-jogar(True, (2, 1))
-jogar(False, (2, 2))
+game.jogar(True, (1, 0))
+game.jogar(True, (1, 1))
+game.jogar(False, (1, 2))
 
-[print(x) for x in getCampo()]
+game.jogar(False, (2, 0))
+game.jogar(True, (2, 1))
+game.jogar(False, (2, 2))
 
-print(gameOver())
+_ = [print(x) for x in game.get_campo()]
+print()
+
+acabou = game.game_over()
+if acabou[0]:
+    resultado = "Empate" if acabou[1] == "" else f'{acabou[1]} Ganhou'
+    print(f'Resultado: {resultado}')
+    game.reset()
 
 
 def hello():
+    """
+        Say Hello
+    """
     print("Hello World!")
     return "Hello World!"
