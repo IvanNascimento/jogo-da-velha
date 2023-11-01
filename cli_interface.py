@@ -1,7 +1,7 @@
 """
     Interface de linha de comando para o Jogo da Velha
 """
-# pylint: disable=global-statement
+# pylint: disable=global-statement, invalid-name
 
 from src import game
 
@@ -100,7 +100,6 @@ def _jogar():
 
 
 def _game_over():
-    global _count
     print("Fim de jogo")
     print(f'Número de partidas: {_partidas}')
     print(f'Pontuação 1° Jogador: {_pontuacao[0]}')
@@ -138,5 +137,4 @@ def main():
     _loop()
 
 
-if __name__ == "main":
-    main()
+main()

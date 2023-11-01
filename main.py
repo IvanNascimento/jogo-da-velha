@@ -2,9 +2,10 @@
     Código Principal
 """
 
-from cli import cli_interface
+import cli_interface
 
 cli_interface.main()
+
 
 def hello():
     """

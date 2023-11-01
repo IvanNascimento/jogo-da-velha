@@ -41,9 +41,9 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
     Boolean: Se teve erro durante a execução da jogada
 
     Erros:
-    TypeError
-    ValueError
-    PermissionError
+    TypeError: entradas com tipos errados
+    ValueError: entrada com valores inválidos
+    PermissionError: Posição da jogada já ocupada
     """
 
     # Type validation
