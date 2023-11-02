@@ -8,13 +8,14 @@ main_batch = pyglet.graphics.Batch()
 
 # Set up the two top labels
 score_label = pyglet.text.Label(text="Score: 0", x=10, y=575, batch=main_batch)
-level_label = pyglet.text.Label(text="Version 5: It's a Game!",
-                                x=400, y=575, anchor_x='center', batch=main_batch)
+level_label = pyglet.text.Label(
+    text="Version 5: It's a Game!", x=400, y=575, anchor_x="center", batch=main_batch
+)
 
 # Set up the game over label offscreen
-game_over_label = pyglet.text.Label(text="GAME OVER",
-                                    x=400, y=-300, anchor_x='center',
-                                    batch=main_batch, font_size=48)
+game_over_label = pyglet.text.Label(
+    text="GAME OVER", x=400, y=-300, anchor_x="center", batch=main_batch, font_size=48
+)
 
 counter = pyglet.window.FPSDisplay(window=game_window)
 
@@ -56,7 +57,7 @@ def reset_level(num_lives=2):
     # Make three sprites to represent remaining lives
     player_lives = load.player_lives(num_lives, main_batch)
 
-    # Make some asteroids so we have something to shoot at 
+    # Make some asteroids so we have something to shoot at
     asteroids = load.asteroids(num_asteroids, player_ship.position, main_batch)
 
     # Store all objects that update each frame in a list
@@ -86,7 +87,6 @@ def update(dt):
     # This method also avoids the problem of colliding an object with itself.
     for i in range(len(game_objects)):
         for j in range(i + 1, len(game_objects)):
-
             obj_1 = game_objects[i]
             obj_2 = game_objects[j]
 
@@ -120,7 +120,7 @@ def update(dt):
     for to_remove in [obj for obj in game_objects if obj.dead]:
         if to_remove == player_ship:
             player_dead = True
-        # If the dying object spawned any new objects, add those to the 
+        # If the dying object spawned any new objects, add those to the
         # game_objects list later
         to_add.extend(to_remove.new_objects)
 
