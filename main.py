@@ -2,14 +2,14 @@
     Código Principal
 """
 
-import cli_interface
+from cli import cli
 
-cli_interface.main()
+cli.main()
 
 
 def hello():
     """
-        Say Hello
+    Say Hello
     """
     print("Hello World!")
     return "Hello World!"
