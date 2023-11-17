@@ -19,6 +19,10 @@ _campo = [
 def reset():
     """
     Função para reiniciar o jogo
+
+    -1 = Vazio
+     0 = O
+     1 = X
     """
     global _campo
 
@@ -60,7 +64,7 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
         raise ValueError("valores de Posição devem estar entre 0 e 2")
 
     if _campo[posicao[0]][posicao[1]] == -1:
-        _campo[posicao[0]][posicao[1]] = "O" if jogador else "X"
+        _campo[posicao[0]][posicao[1]] = 0 if jogador else 1
         return False
     else:
         raise PermissionError("Posição já está em uso ")
@@ -103,16 +107,16 @@ def game_over() -> tuple[bool, str]:
 
     # Diagonais
     if _campo[0][0] == _campo[1][1] and _campo[1][1] == _campo[2][2]:
-        if _campo[0][0] == "O":
-            return (True, "O")  # O Ganhou
-        if _campo[0][0] == "X":
-            return (True, "X")  # X Ganhou
+        if _campo[0][0] == 0:
+            return (True, 0)  # O Ganhou
+        if _campo[0][0] == 1:
+            return (True, 1)  # X Ganhou
 
     if _campo[0][2] == _campo[1][1] and _campo[1][1] == _campo[2][0]:
-        if _campo[0][2] == "O":
-            return (True, "O")  # O Ganhou
-        if _campo[0][2] == "X":
-            return (True, "X")  # X Ganhou
+        if _campo[0][2] == 0:
+            return (True, 0)  # O Ganhou
+        if _campo[0][2] == 1:
+            return (True, 1)  # X Ganhou
 
     cont = 0
     for i in range(3):
@@ -120,6 +124,6 @@ def game_over() -> tuple[bool, str]:
             if _campo[i][j] == -1:
                 cont += 1
     if cont == 0:
-        return (True, "")  # Empate
+        return (True, -1)  # Empate
 
-    return (False, "")  # Ainda não acabou
+    return (False, -1)  # Ainda não acabou

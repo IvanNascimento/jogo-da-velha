@@ -46,30 +46,23 @@ def print_campo():
     None
     """
     campo = game.get_campo()
-    to_print = [
-        [
-            campo[0][0] if campo[0][0] != -1 else " ",
-            campo[0][1] if campo[0][1] != -1 else " ",
-            campo[0][2] if campo[0][2] != -1 else " ",
-        ],
-        [
-            campo[1][0] if campo[1][0] != -1 else " ",
-            campo[1][1] if campo[1][1] != -1 else " ",
-            campo[1][2] if campo[1][2] != -1 else " ",
-        ],
-        [
-            campo[2][0] if campo[2][0] != -1 else " ",
-            campo[2][1] if campo[2][1] != -1 else " ",
-            campo[2][2] if campo[2][2] != -1 else " ",
-            campo[2][2] if campo[2][2] != -1 else " ",
-        ],
-    ]
-    print("  -A-|-B-|-C- ")
-    print(f" 1 {to_print[0][0]} | {to_print[0][1]} | {to_print[0][2]} ")
-    print(" |---|---|---")
-    print(f" 2 {to_print[1][0]} | {to_print[1][1]} | {to_print[1][2]} ")
-    print(" |---|---|---")
-    print(f" 3 {to_print[2][0]} | {to_print[2][1]} | {to_print[2][2]} ")
+    for i in range(3):
+        for j in range(3):
+            if (campo[i][j] == 0):
+                campo[i][j] = "O"
+            elif(campo[i][j] == 1):
+                campo[i][j] = "X"
+            else:
+                campo[i][j] = " "
+
+    print("    A   B   C  ")
+    print("  ┌───┬───┬───┐")
+    print(f"1 │ {campo[0][0]} │ {campo[0][1]} │ {campo[0][2]} │")
+    print("  ├───┼───┼───┤")
+    print(f"2 │ {campo[1][0]} │ {campo[1][1]} │ {campo[1][2]} │")
+    print("  ├───┼───┼───┤")
+    print(f"3 │ {campo[2][0]} │ {campo[2][1]} │ {campo[2][2]} │")
+    print("  └───┴───┴───┘")
 
 
 def _jogar():
@@ -85,7 +78,7 @@ def _jogar():
         print("Jogador 1, ", end="")
     else:
         print("Jogador 2, ", end="")
-    casa = input("Qual sua jogada ? ex.: A 1 ou 1 A\n")
+    casa = input("Qual sua jogada ? ex.: A 1 ou 1 A \n")
     posicao = casa.split()
     _invalido = False
 
