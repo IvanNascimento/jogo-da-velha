@@ -53,7 +53,8 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
     # Type validation
     if not isinstance(jogador, bool) or not isinstance(posicao, tuple):
         raise TypeError(
-            "Tipo inválido, Jogador deve ser 'bool' e Posição deve ser 'tuple[int, int]'")
+            "Tipo inválido, Jogador deve ser 'bool' e Posição deve ser 'tuple[int, int]'"
+        )
     if not isinstance(posicao[0], int) or not isinstance(posicao[1], int):
         raise TypeError("Tipo inválido, Posição deve ser 'tuple[int, int]'")
 
