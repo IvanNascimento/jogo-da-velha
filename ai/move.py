@@ -2,29 +2,32 @@ import random
 from difficulty import Difficulty
 
 
-def available(game_map):
+def _available(game_map):
     result = []
-    for row in game_map:
-        for col in row:
-            if col == -1:
+    for row in range(3):
+        for col in range(3):
+            if game_map[row][col] == -1:
                 result.append((row, col))
     return result
 
 
-def easy(game_map: list):
+def _easy(game_map: list):
+    # 100 jogos
     pass
 
 
-def medium(game_map: list):
+def _medium(game_map: list):
+    # 500
     pass
 
 
-def hard(game_map: list):
+def _hard(game_map: list):
+    # 1000
     pass
 
 
-def randoly(game_map: list):
-    availables = available(game_map)
+def _randoly(game_map: list):
+    availables = _available(game_map)
     position = random.choice(range(len(availables)))
     return availables[position]
 
@@ -32,10 +35,10 @@ def randoly(game_map: list):
 def play(game_map: list, difficulty=Difficulty.RANDOM):
     match difficulty:
         case Difficulty.EASY:
-            return easy(game_map)
+            return _easy(game_map)
         case Difficulty.MEDIUM:
-            return medium(game_map)
+            return _medium(game_map)
         case Difficulty.HARD:
-            return hard(game_map)
+            return _hard(game_map)
         case _:
-            return randoly(game_map)
+            return _randoly(game_map)

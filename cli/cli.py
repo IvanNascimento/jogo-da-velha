@@ -6,8 +6,10 @@ import sys, os
 
 this_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(this_dir, "../src"))
+sys.path.append(os.path.join(this_dir, "../ai"))
 
 import game
+import move
 
 # Variáveis
 _jogador = None
@@ -18,23 +20,34 @@ _posicoes = ["1", "2", "3", "a", "b", "c", "A", "B", "C"]
 _numeros = ["1", "2", "3"]
 _letras = ["a", "b", "c", "A", "B", "C"]
 _ganhador = ""
+_maquina = False
 
 
 def _init():
     """
     Pega os valores iniciais do jogo
     """
-    print("Quem jogara primeiro ?")
-    print("1: x xis")
-    print("2: O circulo")
+    global _jogador, _maquina
+    print("Jogar contra o computador ?")
+    print("s - Sim")
+    print("n - Não")
     res = input()
     # Valida a entrada
-    if res not in ["1", "2", "x", "o", "X", "O", "0"]:
+    if res not in ["s", "S", "n", "N", "y", "Y"]:
         print("Opção válida. Escolha corretamente")
         return _init()
 
-    global _jogador
-    _jogador = res in ["2", "o", "O", "0"]
+    print("Quem jogara primeiro ?")
+    print("1: x xis")
+    print("2: O circulo")
+    res2 = input()
+    # Valida a entrada
+    if res2 not in ["1", "2", "x", "o", "X", "O", "0"]:
+        print("Opção válida. Escolha corretamente")
+        return _init()
+
+    _maquina = res in ["s", "S", "y", "Y"]
+    _jogador = res2 in ["2", "o", "O", "0"]
     print(f'{"O" if _jogador else "X"} começa o jogo')
 
 
@@ -45,15 +58,18 @@ def print_campo():
     Retorno:
     None
     """
-    campo = game.get_campo()
+    game_campo = list(game.get_campo())
+    campo = []
     for i in range(3):
+        add = []
         for j in range(3):
-            if (campo[i][j] == 0):
-                campo[i][j] = "O"
-            elif(campo[i][j] == 1):
-                campo[i][j] = "X"
+            if game_campo[i][j] == 0:
+                add.append("O")
+            elif game_campo[i][j] == 1:
+                add.append("X")
             else:
-                campo[i][j] = " "
+                add.append(" ")
+        campo.append(add)
 
     print("    A   B   C  ")
     print("  ┌───┬───┬───┐")
@@ -74,37 +90,44 @@ def _jogar():
     """
     global _jogador, _count
     print_campo()
-    if _count % 2 == 0:
-        print("Jogador 1, ", end="")
-    else:
-        print("Jogador 2, ", end="")
-    casa = input("Qual sua jogada ? ex.: A 1 ou 1 A \n")
-    posicao = casa.split()
+
+    print(f"Jogador {1 if _count %2 == 0 else 2}, Qual sua jogada ? ex.: A 1 ou 1 A ")
+    _ignore = False
     _invalido = False
 
-    if posicao[0] not in _posicoes or posicao[1] not in _posicoes:
-        _invalido = True
-    elif posicao[0] in _numeros and posicao[1] in _numeros:
-        _invalido = True
-    elif posicao[0] in _letras and posicao[1] in _letras:
-        _invalido = True
-
-    if _invalido:
-        print("Posição inválida.")
-        return True
-
-    if posicao[1] in _letras:
-        posicao = [posicao[1], int(posicao[0])]
+    if _count % 2 != 0 and _maquina:
+        campo = game.get_campo()
+        posicao = move.play(campo)
+        _ignore = True
     else:
-        posicao = [posicao[0], int(posicao[1])]
+        casa = input()
+        posicao = casa.split()
+        _ignore = False
 
-    match (posicao[0].lower()):
-        case "a":
-            posicao = (posicao[1] - 1, 0)
-        case "b":
-            posicao = (posicao[1] - 1, 1)
-        case _:
-            posicao = (posicao[1] - 1, 2)
+    if not _ignore:
+        if posicao[0] not in _posicoes or posicao[1] not in _posicoes:
+            _invalido = True
+        elif posicao[0] in _numeros and posicao[1] in _numeros:
+            _invalido = True
+        elif posicao[0] in _letras and posicao[1] in _letras:
+            _invalido = True
+
+        if _invalido:
+            print("Posição inválida.")
+            return True
+
+        if posicao[1] in _letras:
+            posicao = [posicao[1], int(posicao[0])]
+        else:
+            posicao = [posicao[0], int(posicao[1])]
+
+        match (posicao[0].lower()):
+            case "a":
+                posicao = (posicao[1] - 1, 0)
+            case "b":
+                posicao = (posicao[1] - 1, 1)
+            case _:
+                posicao = (posicao[1] - 1, 2)
 
     try:
         game.jogar(_jogador, posicao)
@@ -123,7 +146,7 @@ def _jogar():
 def _game_over():
     print_campo()
     print("Fim de jogo")
-    print(f"Ganhador: {'Empate' if _ganhador == '' else _ganhador}")
+    print(f"Ganhador: {'Empate' if _ganhador == -1 else _ganhador}")
     print(f"Número de partidas: {_partidas}")
     print(f"Pontuação 1° Jogador: {_pontuacao[0]}")
     print(f"Pontuação 2° Jogador: {_pontuacao[1]}")
@@ -136,8 +159,8 @@ def _loop():
         _jogar()
         temp = game.game_over()
         if temp[0]:
-            _ganhador = temp[1]
-            if temp[1] == "":
+            _ganhador = "O" if temp[1] == 0 else "X" if temp[1] == 1 else "Empate"
+            if temp[1] == -1:
                 _pontuacao = (_pontuacao[0] + 1, _pontuacao[1] + 1)
             else:
                 if _count % 2 == 0:
@@ -148,9 +171,12 @@ def _loop():
             break
     _game_over()
     print("Jogar novamente? 1 - Sim, 2 - Não")
-    res = int(input())
-    if res == 1:
+    res = input()
+    # print(f"Resposta: {res}")
+    if res in ["1", "s", "sim", "Sim", "S", "y", "Y", "yes", "Yes"]:
         main()
+    else:
+        print("Até a próxima")
 
 
 def main():
@@ -159,6 +185,3 @@ def main():
     """
     _init()
     _loop()
-
-
-main()

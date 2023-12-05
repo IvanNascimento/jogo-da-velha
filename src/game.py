@@ -49,6 +49,7 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
     ValueError: entrada com valores inválidos
     PermissionError: Posição da jogada já ocupada
     """
+    global _campo
 
     # Type validation
     if not isinstance(jogador, bool) or not isinstance(posicao, tuple):
@@ -63,6 +64,9 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
         raise ValueError("valores de Posição devem estar entre 0 e 2")
     if 0 > posicao[1] or posicao[1] > 2:
         raise ValueError("valores de Posição devem estar entre 0 e 2")
+
+    # print(f"Campo: {_campo}")
+    # print(f"Posição: {posicao}")
 
     if _campo[posicao[0]][posicao[1]] == -1:
         _campo[posicao[0]][posicao[1]] = 0 if jogador else 1
