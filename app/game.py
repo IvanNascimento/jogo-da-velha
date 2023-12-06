@@ -33,9 +33,9 @@ def reset():
         [-1, -1, -1],
         [-1, -1, -1],
     ]
+    return _campo
 
-
-def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
+def jogar(jogador, posicao):
     """
     Função para realizar jogada no 'Campo'
 
@@ -53,29 +53,10 @@ def jogar(jogador: bool, posicao: tuple[int, int]) -> bool:
     """
     global _campo
 
-    # Type validation
-    if not isinstance(jogador, bool) or not isinstance(posicao, tuple):
-        raise TypeError(
-            "Tipo inválido, Jogador deve ser 'bool' e Posição deve ser 'tuple[int, int]'"
-        )
-    if not isinstance(posicao[0], int) or not isinstance(posicao[1], int):
-        raise TypeError("Tipo inválido, Posição deve ser 'tuple[int, int]'")
-
-    # Values validation
-    if 0 > posicao[0] or posicao[0] > 2:
-        raise ValueError("valores de Posição devem estar entre 0 e 2")
-    if 0 > posicao[1] or posicao[1] > 2:
-        raise ValueError("valores de Posição devem estar entre 0 e 2")
-
-    # print(f"Campo: {_campo}")
-    # print(f"Posição: {posicao}")
-
     if _campo[posicao[0]][posicao[1]] == -1:
         _campo[posicao[0]][posicao[1]] = 0 if jogador else 1
         return False
-    else:
-        raise PermissionError("Posição já está em uso ")
-
+    return True
 
 def get_campo():
     """
@@ -87,7 +68,7 @@ def get_campo():
     return _campo
 
 
-def game_over() -> tuple[bool, int]:
+def game_over():
     """
     Função para verificar o final do jogo e retornar o ganhador
 
@@ -104,7 +85,7 @@ def game_over() -> tuple[bool, int]:
         ):
             return (True, _campo[i][0])  # Alguém Ganhou
 
-        # Vertical
+        # Horizontal
         if (
             _campo[0][i] == _campo[1][i]
             and _campo[1][i] == _campo[2][i]

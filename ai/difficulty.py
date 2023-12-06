@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Difficulty(Enum):
+class Difficulty:
     EASY = 1
     MEDIUM = 2
     HARD = 3

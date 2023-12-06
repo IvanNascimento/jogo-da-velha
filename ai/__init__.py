@@ -1,1 +1,1 @@
-from . import move
+from . import move, difficulty
